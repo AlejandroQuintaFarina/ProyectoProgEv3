@@ -27,7 +27,7 @@ public class Conectar {
     }
     
     
-    public Boolean validarLogin (String user, String password) throws SQLException{
+    public static Boolean validarLogin (String user, String password) throws SQLException{
         try{
         Conectar conect = new Conectar();
         Connection conexion= conect.Conecta();
@@ -35,7 +35,7 @@ public class Conectar {
         java.sql.Statement consulta = conexion.createStatement();
         java.sql.ResultSet resultado = consulta.executeQuery("SELECT * from usuarios WHERE Nombre='"+user+"' and Contraseña='"+password+"'");
         
-        if(resultado.first())
+        if(resultado.next())
             return true;
         else
             return false;
