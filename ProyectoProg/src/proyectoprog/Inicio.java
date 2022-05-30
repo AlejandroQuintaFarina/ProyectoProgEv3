@@ -127,11 +127,11 @@ public class Inicio extends javax.swing.JFrame {
         String contra = new String(PassField.getPassword());
         
         try{
-            
+            //verificamos que los campos de usuario y contraseña estén rellenados
             if(UserField.getText().length()>0 && contra.length()>0){
-                
+                //lanzamos el método de validación indicando los parámetros de los campos.
                 if(Conectar.validarLogin(UserField.getText(), contra)){
-                    
+                    //Se valida correctamente, cierra esta ventana y abre la de gestión.
                     setVisible(false);
                     Principal principio = new Principal();
                     principio.setVisible(true);

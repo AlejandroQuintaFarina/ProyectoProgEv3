@@ -29,16 +29,18 @@ public class Conectar {
     
     public static Boolean validarLogin (String user, String password) throws SQLException{
         try{
+            //Nos conectamos a la base de datos.
         Conectar conect = new Conectar();
         Connection conexion= conect.Conecta();
         
+        //Preparamos la consulta.
         java.sql.Statement consulta = conexion.createStatement();
         java.sql.ResultSet resultado = consulta.executeQuery("SELECT * from usuarios WHERE Nombre='"+user+"' and Contraseña='"+password+"'");
         
         if(resultado.next())
-            return true;
+            return true;        //usuario validado
         else
-            return false;
+            return false;       //error al validar el usuario
         }
         catch(Exception e){
             e.printStackTrace();
