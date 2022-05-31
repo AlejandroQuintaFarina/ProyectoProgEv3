@@ -6,11 +6,12 @@
 package proyectoprog;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -52,6 +53,10 @@ public class Principal extends javax.swing.JFrame {
         txtDaysField = new javax.swing.JTextField();
         btnRegistrar = new javax.swing.JButton();
         txtDateField = new com.toedter.calendar.JDateChooser();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        RegistroActivo = new javax.swing.JTable();
+        btnActu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,36 +76,6 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Correo electrónico");
-
-        txtNameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNameFieldActionPerformed(evt);
-            }
-        });
-
-        txtDNIField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDNIFieldActionPerformed(evt);
-            }
-        });
-
-        txtApelField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtApelFieldActionPerformed(evt);
-            }
-        });
-
-        txtPhoneField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPhoneFieldActionPerformed(evt);
-            }
-        });
-
-        txtMailField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMailFieldActionPerformed(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Fecha de entrada");
@@ -187,10 +162,51 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtDaysField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Registro", jPanel1);
+
+        RegistroActivo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(RegistroActivo);
+
+        btnActu.setText("Actualizar");
+        btnActu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActuActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(btnActu, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(168, 168, 168)
+                .addComponent(btnActu)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Listado", jPanel2);
 
         javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
@@ -217,47 +233,38 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameFieldActionPerformed
-        
-    }//GEN-LAST:event_txtNameFieldActionPerformed
-
-    private void txtDNIFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDNIFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDNIFieldActionPerformed
-
-    private void txtApelFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApelFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtApelFieldActionPerformed
-
-    private void txtPhoneFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPhoneFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPhoneFieldActionPerformed
-
-    private void txtMailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMailFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMailFieldActionPerformed
-
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         
         //Metodo conecta
         Conectar conect = new Conectar();
         Connection conexion= conect.Conecta();
         
+        //Conversión del jDateChooser a un String
         Date date = (Date) txtDateField.getDate();
         DateFormat f = new SimpleDateFormat("dd-MM-yyyy");
         String fecha = f.format(date);
         
-        if(txtDNIField.getText().length()==9){   
-        if(txtNameField.getText()==null){
-        if(txtApelField.getText()==null){
+        String compDni=txtDNIField.getText();
+        //Creamos varias excepciones de algunos erroes que se podrían crear en algún campo
+        //comprueba que se adecue el tamaño del DNI al correcto y que el correo lleve un @
+        if (compDni.length()==9){
+            String nums=compDni.substring(0, 8);
+            //Mediante el método isNumeric comprueba que los 8 primeros dígitos del DNI sean números
+            if (Conectar.isNumeric(nums)){
+                //Creamos una variable con las posibles letras de un DNI y hacemos que se compruebe que la última esté dentro de las válidas.
+                String letras="TRWAGMYFPDXBNJZSQVHLCKE";
+                String completra=compDni.substring(8).toUpperCase();
+                if (letras.contains(completra)){
+        if(txtNameField.getText()!=null){
+        if(txtApelField.getText()!=null){
         if(txtPhoneField.getText().length()==9){
         if(txtMailField.getText().contains("@")){
-        if(txtDateField.getDate()==null){
-        if(txtDaysField.getText()==null){
+        if(txtDateField.getDate()!=null){
+        if(txtDaysField.getText()!=null){
 
         try{
         
-        String query = "INSERT INTO usuarios(nombre, apellidos, dni, telefono, correo, fechaent, dias) values(?,?,?,?,?,?,?)";
+        String query = "INSERT INTO registro (nombre, apellidos, dni, telefono, correo, fechaent, dias) values(?,?,?,?,?,?,?)";
         PreparedStatement statement = conexion.prepareStatement(query);
         
         //Con un número designamos la posición en la que se colocará el valor de cada casilla correspondiente al ?
@@ -273,12 +280,21 @@ public class Principal extends javax.swing.JFrame {
         
         conexion.close();
         
-        JOptionPane.showMessageDialog(null, "Producto añadido con éxito");
+        JOptionPane.showMessageDialog(null, "La reserva se realizó con éxito");
         
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error al añadir el producto");
             e.printStackTrace();
         }
+        
+        txtNameField.setText("");
+        txtApelField.setText("");
+        txtDNIField.setText("");
+        txtPhoneField.setText("");
+        txtMailField.setText("");
+        txtDateField.setDate(null);
+        txtDaysField.setText("");
+        
         }else{
             JOptionPane.showMessageDialog(null, "Error en los días, compruebe si los datos son correctos");
         }
@@ -300,7 +316,60 @@ public class Principal extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Error en el DNI, compruebe si los datos son correctos");
         }
+        }else{
+            JOptionPane.showMessageDialog(null, "Error en el DNI, compruebe si los datos son correctos");
+        }
+        }else{
+            JOptionPane.showMessageDialog(null, "Error en el DNI, compruebe si los datos son correctos");
+        }
+        
+        
+        
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnActuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActuActionPerformed
+        
+        Conectar conect = new Conectar();
+        Connection conexion= conect.Conecta();
+        
+        String listar = "SELECT * FROM registro";
+        java.sql.Statement st;
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("nombre");
+        modelo.addColumn("apellido");
+        modelo.addColumn("DNI");
+        modelo.addColumn("telf.");
+        modelo.addColumn("correo");
+        modelo.addColumn("Fechaent");
+        modelo.addColumn("días");
+        
+        RegistroActivo.setModel(modelo);
+        
+        String datos[] = new String[7];
+        try{
+            st = conexion.createStatement();
+            java.sql.ResultSet resultado = st.executeQuery(listar);
+            
+        //Creamos un while para que mientras existan regsitros se añadan los datos al array y finalmente se va añadiendo a la tabla.
+        while(resultado.next()){
+            datos[0]=resultado.getString(1);
+            datos[1]=resultado.getString(2);
+            datos[2]=resultado.getString(3);
+            datos[3]=resultado.getString(4);
+            datos[4]=resultado.getString(5);
+            datos[5]=resultado.getString(6);
+            datos[6]=resultado.getString(7);
+            
+
+            modelo.addRow(datos);
+        }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al insertar los datos en la tabla.");
+        }
+    }//GEN-LAST:event_btnActuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,9 +407,13 @@ public class Principal extends javax.swing.JFrame {
                 new Principal().setVisible(true);
             }
         });
+            
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JTable RegistroActivo;
+    private javax.swing.JButton btnActu;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
@@ -351,6 +424,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField txtApelField;
     private javax.swing.JTextField txtDNIField;

@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import static proyectoprog.Principal.RegistroActivo;
 
 public class Conectar {
         java.sql.Connection con;
@@ -47,4 +49,58 @@ public class Conectar {
             return false;
         }
     }
+    
+        public static boolean isNumeric(String cadena){
+           try{
+               Integer.parseInt(cadena);
+               return true;
+           }
+           catch(NumberFormatException e){
+               return false;
+           }
+        }
+        
+        public static void Listar (){
+            Conectar conect = new Conectar();
+        Connection conexion= conect.Conecta();
+        
+        String listar = "SELECT * FROM registro";
+        java.sql.Statement st;
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("nombre");
+        modelo.addColumn("apellido");
+        modelo.addColumn("DNI");
+        modelo.addColumn("telf.");
+        modelo.addColumn("correo");
+        modelo.addColumn("Fechaent");
+        modelo.addColumn("días");
+        
+        RegistroActivo.setModel(modelo);
+        
+        String datos[] = new String[7];
+        try{
+            st = conexion.createStatement();
+            java.sql.ResultSet resultado = st.executeQuery(listar);
+            
+        //Creamos un while para que mientras existan regsitros se añadan los datos al array y finalmente se va añadiendo a la tabla.
+        while(resultado.next()){
+            datos[0]=resultado.getString(1);
+            datos[1]=resultado.getString(2);
+            datos[2]=resultado.getString(3);
+            datos[3]=resultado.getString(4);
+            datos[4]=resultado.getString(5);
+            datos[5]=resultado.getString(6);
+            datos[6]=resultado.getString(7);
+
+            modelo.addRow(datos);
+        }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al insertar los datos en la tabla.");
+        }
+        }
+        
+
 }
