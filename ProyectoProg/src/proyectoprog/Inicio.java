@@ -135,7 +135,7 @@ public class Inicio extends javax.swing.JFrame {
                     setVisible(false);
                     Principal principio = new Principal();
                     principio.setVisible(true);
-                    Conectar.Listar();
+                    Conectar.Listar(0,null);
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "El usuario y/o la contraseña no son válidos");

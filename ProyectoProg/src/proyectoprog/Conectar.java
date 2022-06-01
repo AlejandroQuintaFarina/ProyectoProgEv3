@@ -60,13 +60,14 @@ public class Conectar {
            }
         }
         
-        public static void Listar (){
+        //Método para mostrar la BD en un JTable
+        public static void Listar (int opBuscar, String valor){
             Conectar conect = new Conectar();
         Connection conexion= conect.Conecta();
-        
-        String listar = "SELECT * FROM registro";
+        //Llamamos a la consulta select que reoge todos las filas de nuestra Tabla registro
+
         java.sql.Statement st;
-        
+        //Creamos un modelo para nuestro JTable 
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("nombre");
         modelo.addColumn("apellido");
@@ -78,10 +79,31 @@ public class Conectar {
         
         RegistroActivo.setModel(modelo);
         
+        String codsql = null;
+        //Creamos una serie de if-else que detectarán las opciones de busqueda y realizarán la consulta que corresponda.
+        if(opBuscar==0 && valor==null){
+            codsql="SELECT * from registro";
+        }else{
+            if(opBuscar==1 && valor!=null){
+                codsql="SELECT * from registro where dni='"+valor+"'";
+            }else{
+                if (opBuscar==2 && valor!=null){
+                    codsql="SELECT * from registro where apellidos='"+valor+"'";
+                }else{
+                    if(opBuscar==3 && valor!=null){
+                        codsql="SELECT * from registro where fechaent='"+valor+"'";
+                    }else{
+                        codsql="SELECT * from registro";
+                    }
+                }
+            }
+        }
+        
+        //Crea un array que recogerá los datos de la BD
         String datos[] = new String[7];
         try{
             st = conexion.createStatement();
-            java.sql.ResultSet resultado = st.executeQuery(listar);
+            java.sql.ResultSet resultado = st.executeQuery(codsql);
             
         //Creamos un while para que mientras existan regsitros se añadan los datos al array y finalmente se va añadiendo a la tabla.
         while(resultado.next()){
@@ -101,6 +123,29 @@ public class Conectar {
             JOptionPane.showMessageDialog(null, "Error al insertar los datos en la tabla.");
         }
         }
+        
+     public static void ActualizarDatos(){
+        Conectar conect = new Conectar();
+        Connection conexion= conect.Conecta();
+         
+         int fila = RegistroActivo.getSelectedRow();
+         
+         
+         String nom = RegistroActivo.getValueAt(fila, 0).toString();
+         String apel = RegistroActivo.getValueAt(fila, 1).toString();
+         String dni = RegistroActivo.getValueAt(fila, 2).toString();
+         String telf = RegistroActivo.getValueAt(fila, 3).toString();
+         String mail = RegistroActivo.getValueAt(fila, 4).toString();
+         String fechaent = RegistroActivo.getValueAt(fila, 5).toString();
+         int dias = Integer.parseInt(RegistroActivo.getValueAt(fila, 6).toString());
+         try{
+             java.sql.PreparedStatement actu = conexion.prepareStatement("UPDATE registro SET nombre='"+nom+"',apellidos='"+apel+"',dni='"+dni+"',telefono='"+telf+"',correo='"+mail+"',fechaent='"+fechaent+"',dias='"+dias+"'"+"WHERE dni='"+dni+"'");
+             actu.executeUpdate();
+             Listar(0,null);
+         }catch(Exception e){
+             JOptionPane.showMessageDialog(null, e + "\n No se pudo actualizar los datos.");
+         }
+     }
         
 
 }
