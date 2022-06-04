@@ -5,6 +5,8 @@ package proyectoprog;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static proyectoprog.Principal.RegistroActivo;
@@ -145,6 +147,72 @@ public class Conectar {
          }catch(Exception e){
              JOptionPane.showMessageDialog(null, e + "\n No se pudo actualizar los datos.");
          }
+     }
+     
+     public static void RegistrarInicios(String user){
+        Conectar conect = new Conectar();
+        Connection conexion= conect.Conecta();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String fecha=dtf.format(LocalDateTime.now());
+        
+        
+        try{
+        String consulta = "INSERT INTO inicios (Nombre,Fecha) values(?,?)";
+        java.sql.PreparedStatement st = conexion.prepareStatement(consulta);
+        
+        st.setString(1, user);
+        st.setString(2, fecha);
+        
+        st.executeUpdate();
+        conexion.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ocurrió un problema al registrar el incio.");
+            e.printStackTrace();
+        }
+        
+     }
+     
+
+     
+     public static void EliminarCliente(){
+        Conectar conect = new Conectar();
+        Connection conexion= conect.Conecta();
+         
+         int fila=RegistroActivo.getSelectedRow();
+         String valor=RegistroActivo.getValueAt(fila, 2).toString();
+         
+         try{
+             java.sql.PreparedStatement antiguo = conexion.prepareStatement("INSERT INTO antiguos (nombre, apellidos, dni, telefono, correo, fechaent, dias) values(?,?,?,?,?,?,?)");
+             
+            antiguo.setString(1,RegistroActivo.getValueAt(fila, 0).toString());
+            antiguo.setString(2,RegistroActivo.getValueAt(fila, 1).toString());
+            antiguo.setString(3,RegistroActivo.getValueAt(fila, 2).toString());
+            antiguo.setString(4,RegistroActivo.getValueAt(fila, 3).toString());
+            antiguo.setString(5,RegistroActivo.getValueAt(fila, 4).toString());
+            antiguo.setString(6,RegistroActivo.getValueAt(fila, 5).toString());
+            antiguo.setString(7,RegistroActivo.getValueAt(fila, 6).toString());
+            
+            antiguo.executeUpdate();
+         
+         
+         }catch(Exception e){
+             
+         }
+         
+         try{
+            java.sql.PreparedStatement eliminar=conexion.prepareStatement("DELETE FROM registro WHERE dni='"+valor+"'");
+            eliminar.executeUpdate();
+            Listar(0,null);
+             
+         }catch(Exception e){
+             JOptionPane.showMessageDialog(null, e + "No se pudo eliminar el registro seleccionado.");
+         }
+         
+         
+     }
+     
+     public static void Antiguo(){
+         
      }
         
 

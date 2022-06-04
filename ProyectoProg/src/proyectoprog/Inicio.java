@@ -134,6 +134,7 @@ public class Inicio extends javax.swing.JFrame {
                     //Se valida correctamente, cierra esta ventana y abre la de gestión.
                     setVisible(false);
                     Principal principio = new Principal();
+                    Conectar.RegistrarInicios(UserField.getText());
                     principio.setVisible(true);
                     Conectar.Listar(0,null);
                 }
