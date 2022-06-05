@@ -1,11 +1,13 @@
 
 package proyectoprog;
 
+import MetodosProyecto.Conectar;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import static proyectoprog.Principal.RegistroActivo;
 
 
 public class Inicio extends javax.swing.JFrame {
@@ -136,7 +138,7 @@ public class Inicio extends javax.swing.JFrame {
                     Principal principio = new Principal();
                     Conectar.RegistrarInicios(UserField.getText());
                     principio.setVisible(true);
-                    Conectar.Listar(0,null);
+                    Conectar.Listar(0,null,RegistroActivo);
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "El usuario y/o la contraseña no son válidos");

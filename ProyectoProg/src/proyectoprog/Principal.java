@@ -5,6 +5,7 @@
  */
 package proyectoprog;
 
+import MetodosProyecto.Conectar;
 import java.sql.Connection;
 import java.util.Date;
 import java.sql.PreparedStatement;
@@ -388,15 +389,15 @@ public class Principal extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         int opcion=Combo.getSelectedIndex();
         String valor=BuscarField.getText();
-        Conectar.Listar(opcion,valor);
+        Conectar.Listar(opcion,valor,RegistroActivo);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnActuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActuActionPerformed
-        Conectar.ActualizarDatos();
+        Conectar.ActualizarDatos(RegistroActivo);
     }//GEN-LAST:event_btnActuActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        Conectar.EliminarCliente();
+        Conectar.EliminarCliente(RegistroActivo);
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
